@@ -13,6 +13,7 @@ import { PaginationDto } from '../common/dto/pagination.dto';
 export class ProductsService extends PrismaClient implements OnModuleInit {
   private readonly logger = new Logger('ProductService');
   onModuleInit() {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.$connect();
     this.logger.log('Database connected');
   }
@@ -49,15 +50,15 @@ export class ProductsService extends PrismaClient implements OnModuleInit {
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id: __, ...data } = updateProductDto;
     try {
       const product = await this.product.update({
         where: {
           id,
           available: true,
         },
-        data: {
-          ...updateProductDto,
-        },
+        data,
       });
       return product;
     } catch (error) {
